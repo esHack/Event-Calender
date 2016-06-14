@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>Admin Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/style_login.css">
+  <style>
+</style>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+<form method="post" role="form" action="/admin">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#myPage">Administrator Login</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">HOME</a></li>
+        <li><a href="">LOGIN</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">MORE
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+           <li><a href="#">May be in future 1</a></li>
+            <li><a href="#">Race events in my area</a></li>
+            <li><a href="#">Media</a></li> 
+          </ul>
+        </li>
+        <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+<!-- Container (Contact Section) -->
+<div id="contact" class="container">
+  <h3 class="text-center">Administrator Login</h3> <br>
+  <p class="text-center"><em>   </em></p>
+
+  <div class="row">
+    <div class="col-md-4">
+      <p> Note.</p>
+      <p><span class="glyphicon glyphicon-user"></span> Enter User name as <b>admin</b></p>
+      <p><span class="glyphicon glyphicon-menu-right"></span> Password as: <b>secretpassword</b></p>
+     
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="User Name" type="text" required>
+        </div>
+		 <br>
+		  <br> 
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="password" name="password" placeholder="Password" type="password" required>
+        </div>
+      </div>
+    
+      <br>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <button class="btn pull-right" type="button" >LOGIN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+ 
+
+ 
+</div>
+
+
+
+
+
+<!-- Footer -->
+<footer class="text-center">
+  <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a><br><br>
+  <p>scroll to top </p> 
+</footer>
+
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+    
+        document.forms[0].action.value='/admin';
+        document.forms[0].method.value='POST';
+        alert(document.forms[0].name.value);
+         if(document.forms[0].name.value=='admin' && document.forms[0].password.value=='secretpassword'){
+    alert('admin');
+		document.forms[0].submit();
+  }
+    });
+});
+</script>
+</form>
+</body>
+</html>

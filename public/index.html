@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+  <title>Race Events </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+  <style>
+ 
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50" ng-app="myapp">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#myPage">Welcome</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#myPage">HOME</a></li>
+        <li><a href="/login">LOGIN</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">MORE
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">May be in future 1</a></li>
+            <li><a href="#">Race events in my area</a></li>
+            <li><a href="#">Media</a></li> 
+          </ul>
+        </li>
+        <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+<div class="catabutton" id="catabutton">
+    <button class="btn" data-toggle="modal" data-target="#myModal">CATA</button>
+</div>
+<div class="catbbutton" id="catbbutton" style="z-index:2">
+    <button class="btn" data-toggle="modal" data-target="#myModal">CATB</button>
+</div>
+
+
+<div id="googleMap">
+
+</div>
+
+<!-- Add Google Maps -->
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+var myCenter = new google.maps.LatLng(37.9831917, -23.72535849999997);
+var markers=[];
+var gooMarker=[];
+var map;
+var markerSize = { x: 22, y: 40 };
+var bounds = new google.maps.LatLngBounds();
+function initialize(markers) {
+  console.log(markers);
+  
+var mapProp = {
+center:myCenter,
+zoom:2,
+scrollwheel:false,
+draggable:true,
+mapTypeId:google.maps.MapTypeId.ROADMAP
+};
+
+ map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+/*var marker = new google.maps.Marker({
+position:myCenter,
+});
+marker.setMap(map);
+*/
+
+
+        
+    // Display multiple markers on a map
+    var infoWindow = new google.maps.InfoWindow(), marker, i;
+    markers.sort(function(a,b) {return (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0);} );
+    console.log(markers);
+    var infoWindowContent=[];
+
+     var MarkerLabel = function(options) {
+    this.setValues(options);
+    this.span = document.createElement('span');
+    this.span.className = 'map-marker-label';
+  };
+
+   google.maps.Marker.prototype.setLabel = function(label) {
+    this.label = new MarkerLabel({
+      map: this.map,
+      marker: this,
+      text: label
+    });
+    this.label.bindTo('position', this, 'position');
+  };
+
+  MarkerLabel.prototype = $.extend(new google.maps.OverlayView(), {
+    onAdd: function() {
+      this.getPanes().overlayImage.appendChild(this.span);
+      var self = this;
+      this.listeners = [
+        google.maps.event.addListener(this, 'position_changed', function() {
+          self.draw();
+        })
+      ];
+    },
+    draw: function() {
+      var text = String(this.get('text'));
+      var position = this.getProjection().fromLatLngToDivPixel(this.get('position'));
+      this.span.innerHTML = text;
+      this.span.style.left = (position.x - (markerSize.x / 2)) - (text.length * 3) + 10 + 'px';
+      this.span.style.top = (position.y - markerSize.y + 40) + 'px';
+    }
+  });
+
+
+for( i = 0; i < markers.length; i++ ) {
+
+     infoWindowContent[i] = '<div class="info_content">' +
+        '<h5><i> Event '+markers[i].id+'-'+markers[i].category+'</i></h5>' +
+        '<p> <b>From:</b> '+markers[i].startDate.substring(0,10)+'-- <b>To:</b>'+markers[i].endDate.substring(0,10)+'</p>' +
+        '<p>'+markers[i].description+'</p><p>'+markers[i].country+'</p>' +         '</div>';
+        
+         var myMark;
+         console.log(infoWindowContent);
+
+         var iconColor='';
+         if(markers[i].category=='CAT A') iconColor='http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+         else iconColor='http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+
+         gooMarker.push(myMark=new google.maps.Marker({
+            position: new google.maps.LatLng(markers[i].latitude, markers[i].longitude),
+            map: map,
+            icon:iconColor,
+            title: markers[i].category,
+            label: 'Event '+markers[i].id
+        }));
+
+         console.log(myMark);
+         bounds.extend(myMark.position);
+
+         google.maps.event.addListener(myMark, 'click', (function(marker, i) {
+            return function() {
+                infoWindow.setContent(infoWindowContent[i]);
+                infoWindow.open(map, this);
+            }
+        })(myMark, i));
+
+           /*  google.maps.event.addListener(map, "click", function(event) {
+        for (var i = 0; i < ibArray.length; i++ ) {  
+             ibArray[i].close();
+        }
+          });*/
+
+        // Automatically center the map fitting all markers on the screen
+       map.fitBounds(bounds);
+
+       //google.maps.event.trigger(gooMarker[0], 'click');
+
+}
+
+
+
+
+}
+
+
+</script>
+
+
+<div id="tour" class="bg-1">
+  <div class="container">
+    <h3 class="text-center">EVENT DATES</h3>
+    <p class="text-center">Check events across the globe..<br> Remember to book your tickets!</p>
+    
+    <div class="row text-center">
+
+    <div class="col-sm-6"> <button class="btn" data-toggle="modal" data-target="#myModal">CATEGORY A</button>   </div>
+
+    <div class="col-sm-6"> <button class="btn" data-toggle="modal" data-target="#myModal">CATEGORY B</button>   </div>
+    </div>
+  
+  <br>
+
+    <div class="row text-center" >
+
+      <div class="col-sm-6 text-center" ng-controller="HelloController" ng-init="rsvpText='RSVP here'">
+
+      <div class="col-sm-6" data-ng-repeat="x in myData">
+        <div class="thumbnail">
+          <p style="text-align:center;"><strong >Event {{x.id}}  <span style="float:right;padding-right:5px"> {{x.category}} </span>   </strong></p>
+          <p align="left"> {{x.startDate | date}}- {{x.endDate| date}}</p>
+          <p><strong>{{x.description}} , {{x.country}} </strong></p> 
+
+          <button class="btn" data-toggle="modal" data-target="#myModal" ng-click="deleteArrival(x.id);">Show on Map</button><br>
+
+          <button class="btns btn-xs pull-right" data-toggle="modal" data-target="#myModal" ng-click="rsvpfn(x.id);" ng-disabled="x.rsvp" ng-class="{'diabled-class': x.rsvp}">{{rsvpText}}
+          </button>
+
+        </div>
+      </div>
+     
+      </div>
+
+
+      <div class="col-sm-6 text-center" ng-controller="NewController" ng-init="rsvpText='RSVP here'">
+
+     <div class="col-sm-6" data-ng-repeat="x in newData">
+        <div class="thumbnail">
+          <p style="text-align:center;"><strong >Event {{x.id}}  <span style="float:right;padding-right:5px"> {{x.category}} </span>   </strong></p>
+          <p align="left"> {{x.startDate | date}}- {{x.endDate| date}}</p>
+          <p><strong>{{x.description}} , {{x.country}} </strong></p> 
+
+          <button class="btn" data-toggle="modal" data-target="#myModal" ng-click="deleteArrival(x.id);">Show on Map</button>
+          <button class="btns btn-xs pull-right" data-toggle="modal" data-target="#myModal" ng-click="rsvpfn(x.id);" ng-disabled="x.rsvp">{{rsvpText}}
+          </button>
+
+        </div>
+      </div>
+      
+
+      </div>
+
+    
+      </div>
+      
+    </div>
+  </div>
+
+
+
+<!-- Footer -->
+<footer class="text-center">
+  <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a><br><br>
+  <p>Scroll to top</p> 
+</footer>
+
+<script>
+var markers=[];
+var app=angular.module("myapp", []);
+
+app.controller("HelloController", function($scope,$http,$window) {
+       
+$http.get("/getEventsCatA").then(function(response) {
+       // alert(response.data);
+        //var o = JSON.stringify(response.data);
+        $scope.myData = response.data;
+
+
+       //  $scope.helloTo = {};
+        //$scope.helloTo.title = "World, AngularJS";
+
+       $scope.deleteArrival=function showonMap(id){
+  //alert(id);
+   google.maps.event.trigger(gooMarker[id-1], 'click');     $window.scrollTo(30, 30);
+
+}
+        
+        angular.forEach($scope.myData,function(value,index){
+                //  alert(value.latitude);
+                /*var marker =new Object();;
+                marker.latitude=value.latitude;
+                marker.longitude=value.longitude;
+                marker.category=value.category;*/
+                markers.push(value);
+            });
+        console.log(markers);
+    });
+
+$scope.rsvpfn=function abcd(id){
+
+  $http.get('/rsvp', {
+  params: { rsvpId: id } }).then(function(response) {
+       // alert(response.data);
+        $scope.myData[id-1].rsvp=true;
+            });
+}
+
+});
+
+ 
+
+app.controller("NewController", function($scope,$http, $timeout,$window) {
+       $timeout(function () {
+       $http.get("/getEventsCatB").then(function(response) {
+        //alert(response.data);
+        //var o = JSON.stringify(response.data);
+        $scope.newData = response.data;
+         
+
+        angular.forEach($scope.newData,function(value,index){
+               // alert(value.latitude);
+               
+                markers.push(value);
+            });
+
+        $scope.deleteArrival=function showonMap(id){
+  
+   google.maps.event.trigger(gooMarker[id-1], 'click');     $window.scrollTo(30, 30);
+
+}
+
+$scope.rsvpfn=function abcd(id){
+
+  $http.get('/rsvp', {
+  params: { rsvpId: id } }).then(function(response) {
+        
+        $scope.rsvp=true;
+            });
+}
+
+        
+      
+
+        console.log(markers);
+       //  $scope.helloTo = {};
+        //$scope.helloTo.title = "World, AngularJS";
+        google.maps.event.addDomListener(window, 'load', initialize(markers));
+    });
+    }, 2000);
+
+
+
+});
+
+
+
+  
+
+var events='';
+$(document).ready(function(){
+
+  // Initialize Tooltip
+  $('[data-toggle="tooltip"]').tooltip(); 
+  
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+
+   
+
+   $("#catabutton").click(function(){ 
+        
+         console.log(markers);
+          for(var i=0; i<markers.length; i++){
+            if(markers[i].category=='CAT B'){
+        gooMarker[i].setVisible(false);}
+            else{
+              gooMarker[i].setVisible(true);
+            }
+    }
+
+
+    }); 
+
+   $("#catbbutton").click(function(){
+        console.log(markers);
+          for(var i=0; i<markers.length; i++){
+            if(markers[i].category=='CAT A'){
+        gooMarker[i].setVisible(false);}
+        else{
+              gooMarker[i].setVisible(true);
+            }
+    }
+    }); 
+  
+});
+
+
+
+</script>
+
+</body>
+</html>

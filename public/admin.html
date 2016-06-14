@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>The Race</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src="https://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+  <link rel="stylesheet" href="/css/style_admin.css">
+   
+   <!-- <script src=" https://cdnjs.cloudflare.com/ajax/libs/geocomplete/1.7.0/jquery.geocomplete.min.js"></script> -->
+ 
+
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50" ng-app="myapp">
+<form method="post" role="form" action="/admin">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#myPage">Administrator LOGIN</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">HOME</a></li>
+        <li><a href="/login">LOGOUT</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">MORE
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">May be in future 1</a></li>
+            <li><a href="#">Race events in my area</a></li>
+            <li><a href="#">Media</a></li> 
+          </ul>
+        </li>
+        <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+<!-- Container (Contact Section) -->
+<div id="contact" class="container" ng-controller="HelloController">
+  <h3 class="text-center">Welcome Administrator</h3> <br>
+  <p class="text-center"><em>   </em></p>
+
+  <ul id="draggablePanelList" class="list-unstyled"  >
+    <li class="panel panel-info" id="{{x.id}}" data-ng-repeat="x in myData">
+        <div class="panel-heading" ><b>Event {{x.id}} / {{x.country}}</b>      
+        <button class="btns btn-xs pull-right" type="button"  data-toggle="modal"   ng-click="deleteEvent(x.id);">delete</button> 
+        <button class="btns btn-xs pull-right" type="button"  data-toggle="modal" data-target="#myModal" ng-click="editEvent(x.id);" >edit</button></div>
+        <!-- <div class="panel-body" id="esh{{x.id}}">Content ...</div> -->
+    </li>
+    <!-- <li class="panel panel-info" id="2">
+        <div class="panel-heading" >You can drag this panel too.</div>
+        <div class="panel-body" id="esh2"></div> 
+    </li>
+	 <li class="panel panel-info" id="3">
+        <div class="panel-heading" >You can drag this panel toooooooooooo.</div>
+        <div class="panel-body" id="esh3"></div> 
+    </li> -->
+</ul>
+
+
+ 
+ <div class="row">
+        <div class="col-md-6 form-group">
+          <button class="btn pull-right" type="button"  data-toggle="modal" data-target="#myModal">Add</button>
+        </div>
+      </div>
+	  
+	  
+	    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h5><span class="glyphicon glyphicon-lock"></span> Events</h5>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" role="form">
+		  
+			  <div class="form-group" >
+				<label class="control-label col-sm-2" for="title">Title:</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control col-sm-2" id="title" placeholder="Title..?" value={{editData[i].id}} required>
+				</div>
+			  </div>
+			  <br>
+			  
+			  <div class="form-group">
+				<label class="control-label col-sm-2" for="description">Description:</label>
+				<div class="col-sm-10"> 
+				  <input type="text" class="form-control" id="description" placeholder="Enter password" value={{editData[i].description}}>
+				</div>
+			  </div>
+			  <br>
+			  
+			  <div class="form-group">
+				<label class="control-label col-sm-2" for="address">Address:</label>
+				<div class="col-sm-10"> 
+				  <input type="text" class="form-control" id="address" placeholder="Enter address.." value={{editData[i].address}}>
+				</div>
+			  </div>
+			  <br>
+			  
+			  <div class="form-group">
+				<label class="control-label col-sm-2" for="zip">Zip:</label>
+				<div class="col-sm-4"> 
+				  <input type="text" class="form-control" id="zip" placeholder="Enter zip" value={{editData[i].zip}}>
+				</div>
+
+        <label class="control-label col-sm-2" for="zip">Category :</label>
+        <div class="col-sm-4"> 
+          <select id="category">
+              <option value="CAT A">CAT 1</option>
+              <option value="CAT B">CAT 2</option>
+            </select>
+        </div>
+			  </div>
+			  <br>
+			  
+			 <!--  <div class="form-group">
+				<label class="control-label col-sm-2" for="country">Country:</label>
+				<select class="input-medium bfh-countries" data-country="US"></select>
+			  </div>
+			  <br> -->
+			  
+			  <div class="form-group">
+				<label class="control-label col-sm-2" for="startDate">StartDate:</label>
+				<div class="col-sm-4"> 
+				  <input type="date" class="form-control" id="startDate" placeholder="" value={{editData[i].startDate}}>
+				</div>
+				<label class="control-label col-sm-2" for="endDate">EndDate:</label>
+				<div class="col-sm-4"> 
+				  <input type="date" class="form-control" id="endDate" placeholder="" value={{editData[i].endDate}}>
+				</div>
+			  </div>
+			  <br>
+        <div class="form-group">
+
+        <label class="control-label col-sm-2" for="search">search:</label>
+        <div class="col-sm-10"> 
+          <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Enter location" >
+        </div>
+        </div>
+        <br>
+
+         <div class="form-group">
+        <label class="control-label col-sm-2" for="latitude">Latitude:   </label>
+        <div class="col-sm-4"> 
+          <input type="text" class="form-control" id="latitude" name="latitude" placeholder="latitude" value={{editData[i].latitude}}>
+        </div>
+         <label class="control-label col-sm-2" for="longitude">Longitude:</label>
+        <div class="col-sm-4"> 
+          <input type="text" class="form-control" id="longitude" name="longitude" placeholder="longitude" value={{editData[i].longitude}}>
+        </div>
+        <!--  <label class="control-label col-sm-1" for="country">Latitude:</label>
+        <div class="col-sm-3"> 
+          <input type="text" class="form-control" id="country" name="country" placeholder="country" >
+        </div> -->
+        </div>
+        <br>
+
+          <div class="form-group">
+        <label class="control-label col-sm-2" for="country">Country:   </label>
+        <div class="col-sm-10"> 
+          <input type="text" class="form-control" id="country" name="country" placeholder="country" value={{editData[i].country}}>
+        </div>
+          <br>
+        
+        </div>
+
+         <div class="form-group">
+                    <div class="control-label col-sm-12">
+                        <div id="map-canvas" class="" ></div>
+                    </div>
+                </div> 
+          <br>
+        
+			  
+              <button type="button" class="btn btn-block" id="saveData" ng-click="addEvent()">Save 
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+          </form>
+        </div>
+        
+        <!--  <div class="modal-footer">
+          <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+            <span class="glyphicon glyphicon-remove"></span> Cancel
+          </button>
+          <p>Need <a href="#">help?</a></p>
+        </div> -->
+
+      </div>
+    </div>
+  </div>
+ 
+</div>
+
+
+
+
+
+<!-- Footer -->
+<footer class="text-center">
+  <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a><br><br>
+  <p>scroll to top </p> 
+</footer>
+
+
+
+<!-- <script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>-->
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+<script>
+
+var map;   
+function initialize() {
+
+     
+var myCenter=new google.maps.LatLng(47.5162, -14.5501);
+var marker=new google.maps.Marker({
+    position:myCenter
+});
+
+var defaultBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(40.802089, -124.163751)
+  );
+
+var origin_input = document.getElementById('keyword');
+
+
+var options = {
+  bounds: defaultBounds,
+  //componentRestrictions: {country: 'us'}
+};
+
+ var mapProp = {
+      center:myCenter,
+      zoom: 20,
+      draggable: true,
+      scrollwheel: false,
+      mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+
+
+  map=new google.maps.Map(document.getElementById("map-canvas"),mapProp);
+  marker.setMap(map);
+    
+  google.maps.event.addListener(marker, 'click', function() {
+      
+    //infowindow.setContent(contentString);
+    //infowindow.open(map, marker);
+    marker.infoWindow.open(map.map, marker);
+    // will center the map on the marker
+    map.map.setCenter(marker.getPosition());
+    
+  }); 
+
+
+var autocomplete = new google.maps.places.Autocomplete(origin_input, options);  
+
+autocomplete.bindTo("bounds", map);
+
+    var marker = new google.maps.Marker({map: map});
+
+    google.maps.event.addListener(autocomplete, "place_changed", function()
+    {
+        var place = autocomplete.getPlace();
+        console.log(place.geometry.location);
+
+        document.getElementById('latitude').value=place.geometry.location.lat();
+        document.getElementById('longitude').value=place.geometry.location.lng();
+
+            for(var i = 0; i < place.address_components.length; i += 1) {
+      var addressObj = place.address_components[i];
+      for(var j = 0; j < addressObj.types.length; j += 1) {
+        if (addressObj.types[j] === 'country') {
+          console.log(addressObj.types[j]); // confirm that this is 'country'
+          console.log(addressObj.long_name); // confirm that this is the country name
+          document.getElementById('country').value=addressObj.long_name;
+        }
+      }
+    }
+
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(10);
+        }
+
+        marker.setPosition(place.geometry.location);
+    });
+
+    google.maps.event.addListener(map, "click", function(event)
+    {
+        marker.setPosition(event.latLng);
+    });
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, "resize", resizingMap());
+
+$('#myModal').on('show.bs.modal', function() {
+   //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
+   resizeMap();
+    //google.maps.event.trigger(map, "resize");
+})
+
+function resizeMap() {
+  console.log('esh');
+  console.log(typeof map);
+   if(typeof map =="undefined") return;
+   setTimeout( function(){resizingMap();} , 400);
+}
+
+function resizingMap() {
+  console.log('esh');
+  console.log(typeof map);
+   if(typeof map =="undefined") return;
+   var center = map.getCenter();
+   console.log(map.getCenter())
+   google.maps.event.trigger(map, "resize");
+   map.setCenter(center); 
+}
+</script>
+
+
+
+
+<script>
+$(document).ready(function(){
+    
+	var newPos='';
+  var oldPos='';
+	jQuery(function($) {
+
+        var panelList = $('#draggablePanelList');
+         console.log($('#draggablePanelList'));
+        panelList.sortable({
+            // Only make the .panel-heading child elements support dragging.
+            // Omit this to make then entire <li>...</li> draggable.
+            handle: '.panel-heading', 
+            update: function() {
+                $('.panel', panelList).each(function(index, elem) {
+					//console.log('iouiouiouooiuou');
+          console.log(elem.id);
+          console.log(index);
+
+                     var $listItem = $(elem),
+                         newIndex = $listItem.index();
+						//document.getElementById(elem.id).innerHTML =newIndex;
+            console.log('exyyy'+newIndex);
+                     // Persist the new indices.
+                });
+            },
+            stop: function(event, ui) {
+              newPos=ui.item.index();
+             // alert(newPos);
+             // alert(oldPos);
+              $.fn.myFunction(oldPos,newPos);
+    },
+    start: function(event, ui) {
+              oldPos=ui.item.index();
+    }
+
+
+        });
+
+
+
+    });
+	
+	
+
+   
+    $.fn.myFunction = function(oldId,newId){ 
+        //alert('You have successfully defined the function!'); 
+        var myhttp = new XMLHttpRequest();
+            var url = "/updateIds";
+            myhttp.open('POST', url, true);
+            var eventId = {};
+          eventId.old = oldId+1;
+          eventId.new = newId+1;
+       myhttp.send(JSON.stringify(eventId));
+       myhttp.onreadystatechange = function() {        
+           if ((myhttp.readyState == 4) && (myhttp.status == 200)){
+               if(myhttp.responseText=='success'){
+                  angular.element(document.getElementById('contact')).scope().listItems();
+               }
+           }
+           else if ((myhttp.readyState == 4) && (myhttp.status != 200))
+           {
+               console.log("Error in Connection");
+           }
+       }
+
+    }
+
+   
+});
+
+
+</script>
+
+<script>
+  var markers=[];
+  var flag= false;
+  var idforEdit='';
+var app=angular.module("myapp", []);
+
+app.controller("HelloController", function($scope,$http) {
+ $scope.listItems = function () {    
+$http.get("/getEvents").then(function(response) {
+        //alert(response.data);
+      
+        $scope.myData = response.data;
+        
+        angular.forEach($scope.myData,function(value,index){
+                
+
+                console.log('ids are'+value.id);
+            });
+       
+    });
+}
+
+
+$scope.addEvent = function () {
+
+   var event = new Object();
+        //alert(flag);
+        if(!flag)
+        event.id=$('ul#draggablePanelList li').length+1;
+        else{
+        event.id=idforEdit;
+        flag=false;}
+        event.title = document.getElementById('title').value;
+        event.description = document.getElementById('description').value;
+        event.address = document.getElementById('address').value;
+        event.zip=document.getElementById('zip').value;
+        event.category=document.getElementById('category').value;
+        event.startDate=document.getElementById('startDate').value;
+        event.endDate=document.getElementById('endDate').value;
+        event.latitude=document.getElementById('latitude').value;
+        event.longitude=document.getElementById('longitude').value;
+        event.country=document.getElementById('country').value;
+        event.rsvp=false;
+
+       //alert(JSON.stringify(event));
+
+         var myhttp = new XMLHttpRequest();
+            var url = "/send";
+            myhttp.open('POST', url, true);
+       myhttp.send(JSON.stringify(event));
+       myhttp.onreadystatechange = function() {        
+           if ((myhttp.readyState == 4) && (myhttp.status == 200)){
+               if(myhttp.responseText=='success'){
+                   $scope.listItems();
+                    $('#myModal').modal('hide');
+
+               }
+           }
+           else if ((myhttp.readyState == 4) && (myhttp.status != 200))
+           {
+               console.log("Error in Connection");
+                $('#myModal').modal('hide');
+           }
+       }
+
+
+  }
+
+ $scope.listItems();
+
+ $scope.editEvent = function(val) {
+        
+       $scope.i=val-1;
+       //alert(flag);
+       idforEdit=val;
+       flag=true;
+       console.log($scope.myData);
+       
+       $scope.editData= $scope.myData;
+       $scope.editData[val-1].endDate=$scope.editData[val-1].endDate.substring(0,10);
+       $scope.editData[val-1].startDate=$scope.editData[val-1].startDate.substring(0,10);
+
+    }
+
+    $scope.deleteEvent = function(val) {
+        
+       
+        var myhttp = new XMLHttpRequest();
+            var url = "/delete";
+            myhttp.open('POST', url, true);
+            var eventId = {};
+            eventId.id = val;
+       myhttp.send(JSON.stringify(eventId));
+       myhttp.onreadystatechange = function() {        
+           if ((myhttp.readyState == 4) && (myhttp.status == 200)){
+               if(myhttp.responseText=='success'){
+                  angular.element(document.getElementById('contact')).scope().listItems();
+               }
+           }
+           else if ((myhttp.readyState == 4) && (myhttp.status != 200))
+           {
+               console.log("Error in Connection");
+           }
+       }
+
+    
+
+    }
+});
+
+
+
+</script>
+
+
+</form>
+</body>
+</html>
