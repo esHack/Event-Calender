@@ -15,7 +15,7 @@
 </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
-<form method="post" role="form" action="/admin">
+<form method="post" role="form" id="login" onsubmit="return validateForm();" action="/admin">
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -59,6 +59,7 @@
       <p> Note.</p>
       <p><span class="glyphicon glyphicon-user"></span> Enter User name as <b>admin</b></p>
       <p><span class="glyphicon glyphicon-menu-right"></span> Password as: <b>secretpassword</b></p>
+       <p id="errormsg"></p>
      
     </div>
     <div class="col-md-8">
@@ -76,7 +77,7 @@
       <br>
       <div class="row">
         <div class="col-md-6 form-group">
-          <button class="btn pull-right" type="button" >LOGIN</button>
+          <button class="btn pull-right" type="submit" >LOGIN</button> 
         </div>
       </div>
     </div>
@@ -100,16 +101,17 @@
 </footer>
 
 <script>
-$(document).ready(function(){
-    $("button").click(function(){
-    
-        document.forms[0].action.value='/admin';
-        document.forms[0].method.value='POST';
-         if(document.forms[0].name.value=='admin' && document.forms[0].password.value=='secretpassword'){
-		document.forms[0].submit();
+
+function validateForm(){
+ if(document.forms[0].name.value=='admin' && document.forms[0].password.value=='secretpassword'){
+    return true;
   }
-    });
-});
+   else{
+    document.getElementById('errormsg').innerHTML ='Incorrect username / password';
+    return false;
+    }
+}
+
 </script>
 </form>
 </body>
