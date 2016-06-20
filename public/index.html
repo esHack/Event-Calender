@@ -66,7 +66,7 @@
 </div>
 
 <!-- Add Google Maps -->
-<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 <script>
 var myCenter = new google.maps.LatLng(37.9831917, -23.72535849999997);
 var markers=[];
@@ -76,7 +76,11 @@ var markerSize = { x: 22, y: 40 };
 var bounds = new google.maps.LatLngBounds();
 function initialize(markers) {
   console.log(markers);
-  
+
+var input = document.getElementById('keyword');
+var autocomplete = new google.maps.places.Autocomplete(input);
+
+
 var mapProp = {
 center:myCenter,
 zoom:2,
@@ -177,6 +181,25 @@ for( i = 0; i < markers.length; i++ ) {
         // Automatically center the map fitting all markers on the screen
        map.fitBounds(bounds);
 
+       autocomplete.bindTo("bounds", map);
+
+        google.maps.event.addListener(autocomplete, "place_changed", function()
+    {
+        var place = autocomplete.getPlace();
+        console.log(place.geometry.viewport);
+
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+            map.setZoom(3);
+             
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(2);
+        }
+
+        //marker.setPosition(place.geometry.location);
+    });
+
        //google.maps.event.trigger(gooMarker[0], 'click');
 
 }
@@ -192,6 +215,14 @@ for( i = 0; i < markers.length; i++ ) {
 
 <div id="tour" class="bg-1">
   <div class="container">
+
+  <div class="form-group pull-right" >
+       
+       
+           <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Enter location" >
+        
+        </div><br><br>
+
     <h3 class="text-center">EVENT DATES</h3>
     <p class="text-center">Check events across the globe..<br> Remember to book your tickets!</p>
     
@@ -413,6 +444,15 @@ $(document).ready(function(){
 
 
 </script>
+
+<script>
+            function init() {
+                var input = document.getElementById('keyword');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+            }
+
+            //google.maps.event.addDomListener(window, 'load', init);
+        </script>
 
 </body>
 </html>
