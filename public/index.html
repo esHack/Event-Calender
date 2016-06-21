@@ -198,6 +198,7 @@ for( i = 0; i < markers.length; i++ ) {
         }
 
         //marker.setPosition(place.geometry.location);
+        window.scrollTo(30, 30);
     });
 
        //google.maps.event.trigger(gooMarker[0], 'click');
@@ -265,7 +266,7 @@ for( i = 0; i < markers.length; i++ ) {
           <p><strong>{{x.description}} , {{x.country}} </strong></p> 
 
           <button class="btn" data-toggle="modal" data-target="#myModal" ng-click="deleteArrival(x.id);">Show on Map</button>
-          <button class="btns btn-xs pull-right" data-toggle="modal" data-target="#myModal" ng-click="rsvpfn(x.id);" ng-disabled="x.rsvp">{{rsvpText}}
+          <button class="btns btn-xs pull-right" data-toggle="modal" data-target="#myModal" ng-click="rsvpfn(x.id);" ng-disabled="x.rsvp" ng-class="{'diabled-class': x.rsvp}">{{rsvpText}}
           </button>
 
         </div>
